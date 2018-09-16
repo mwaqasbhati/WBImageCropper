@@ -15,12 +15,12 @@ protocol pickedImageDelegate{
     func didDone(croppedImage:UIImage)
 }
 
-class WBImageCropperVC:UIViewController,UIGestureRecognizerDelegate {
+class WBImageCropperVC:UIViewController {
     
     var delegate:pickedImageDelegate!=nil
     var previousScale:CGFloat = 0.0
     var cornerRadius:CGFloat = 0.0
-    var tempFrame:CGRect = CGRectZero
+    var tempFrame:CGRect = CGRect.zero
     var tempImage:UIImage = UIImage.init()
     var transView:WBImageCropperView!
     var cropView: UIView!
@@ -29,87 +29,87 @@ class WBImageCropperVC:UIViewController,UIGestureRecognizerDelegate {
     var doneBtn:UIButton!
     
     override func viewDidLoad() {
-        self.initializeCropView()
-        self.originalImageVw.userInteractionEnabled = true
-        self.navigationController?.navigationBarHidden = true
+        super.viewDidLoad()
+        initializeCropView()
+        originalImageVw.isUserInteractionEnabled = true
+        navigationController?.isNavigationBarHidden = true
         
     }
-    override func viewWillAppear(animated: Bool) {
-        self.originalImageVw.image = tempImage
-        self.originalImageVw.frame = CGRectMake(0,0,tempImage.size.width,tempImage.size.height)
+    override func viewWillAppear(_ animated: Bool) {
+        originalImageVw.image = tempImage
+        originalImageVw.frame =  CGRect(x: 0,y: 0,width: tempImage.size.width,height: tempImage.size.height)
         var transparentRects:NSArray
         if self.cornerRadius == 0.0 {
-            transparentRects = NSArray.init(objects:NSValue.init(CGRect:self.tempFrame))
+            transparentRects = NSArray.init(objects:NSValue(cgRect:self.tempFrame))
         }
         else{
             transparentRects = []
         }
-        self.transView = WBImageCropperView.init(frame:self.view.frame, backgroundColor:UIColor.init(white:0.0, alpha:0.5), rects:transparentRects)
-        self.view.insertSubview(self.transView, aboveSubview:self.cropView)
-        self.addGestureToView()
-        self.initializeButton()
+        transView = WBImageCropperView.init(frame:self.view.frame, backgroundColor:UIColor.init(white:0.0, alpha:0.5), rects:transparentRects)
+        view.insertSubview(transView, aboveSubview:cropView)
+        addGestureToView()
+        initializeButton()
         
     }
     func initializeCropView(){
         
-      self.cropView = UIView.init(frame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height))
-   //   self.cropView.backgroundColor = UIColor.blueColor()
-      self.originalImageVw = UIImageView.init()
-      self.cropView.addSubview(originalImageVw)
-      self.view.addSubview(cropView)
+        self.cropView = UIView.init(frame:CGRect(x: 0,y: 0,width: self.view.frame.size.width,height: self.view.frame.size.height))
+        self.originalImageVw = UIImageView.init()
+        self.cropView.addSubview(originalImageVw)
+        self.view.addSubview(cropView)
     }
     func initializeButton(){
        
-        cancelBtn = UIButton.init(type:UIButtonType.Custom)
-        cancelBtn.setTitle("Cancel", forState:UIControlState.Normal)
-        cancelBtn.addTarget(self, action:Selector("CancelBtnPressed"), forControlEvents:UIControlEvents.TouchUpInside)
-        doneBtn = UIButton.init(type:UIButtonType.Custom)
-        doneBtn.setTitle("Done", forState:UIControlState.Normal)
-        doneBtn.addTarget(self, action:Selector("DoneBtnPressed"), forControlEvents:UIControlEvents.TouchUpInside)
+        cancelBtn = UIButton.init(type:UIButtonType.custom)
+        cancelBtn.setTitle("Cancel", for:UIControlState.normal)
+        cancelBtn.addTarget(self, action:#selector(cancelBtnPressed), for:UIControlEvents.touchUpInside)
+        doneBtn = UIButton.init(type:UIButtonType.custom)
+        doneBtn.setTitle("Done", for:UIControlState.normal)
+        doneBtn.addTarget(self, action:#selector(doneBtnPressed), for:UIControlEvents.touchUpInside)
         cancelBtn.sizeToFit()
         doneBtn.sizeToFit()
         self.view.addSubview(cancelBtn)
         self.view.addSubview(doneBtn)
         
     }
-    func CancelBtnPressed(){
+    @objc func cancelBtnPressed(){
         
         self.delegate.didCancel()
-        self.dismissViewControllerAnimated(true) { () -> Void in
+        self.dismiss(animated: true) { () -> Void in
             
         }
         
     
     }
-    func DoneBtnPressed(){
+    @objc func doneBtnPressed(){
         let image = self.screenshot()
-        self.delegate.didDone(image)
-        self.dismissViewControllerAnimated(true) { () -> Void in
+        self.delegate.didDone(croppedImage: image)
+        self.dismiss(animated: true) { () -> Void in
             
         }
     }
     override func viewDidLayoutSubviews() {
         
-        cancelBtn.frame = CGRectMake(10.0,20.0,60.0,30.0)
-        doneBtn.frame = CGRectMake(self.view.frame.size.width-70.0,20.0,60.0,30.0)
+        cancelBtn.frame = CGRect(x: 10.0,y: 20.0,width: 60.0,height: 30.0)
+        doneBtn.frame = CGRect(x: self.view.frame.size.width-70.0,y: 20.0,width: 60.0,height: 30.0)
         
         self.cropView.frame = tempFrame
         self.cropView.center = self.view.center
         
         self.cropView.layer.borderWidth = 2.0
-        self.cropView.layer.borderColor = UIColor.whiteColor().CGColor
+        self.cropView.layer.borderColor = UIColor.white.cgColor
         
         self.cropView.layer.masksToBounds = true
         self.cropView.clipsToBounds = false
         
         if self.cornerRadius == 0.0 {
-            self.transView.rectsArray = NSArray.init(objects:NSValue.init(CGRect:self.cropView.frame))
-            self.transView.drawRect(self.transView.frame)
+            self.transView.rectsArray = NSArray.init(objects:NSValue(cgRect:self.cropView.frame))
+            self.transView.draw(self.transView.frame)
             
         }
         else{
-            self.transView.circles = NSArray.init(objects:NSValue.init(CGRect:self.cropView.frame))
-            self.transView.drawRect(self.transView.frame)
+            self.transView.circles = NSArray.init(objects:NSValue(cgRect:self.cropView.frame))
+            self.transView.draw(self.transView.frame)
             self.cropView.layer.cornerRadius = self.cropView.frame.size.height/2
             
         }
@@ -117,11 +117,11 @@ class WBImageCropperVC:UIViewController,UIGestureRecognizerDelegate {
     }
     func addGestureToView(){
         
-        let panGesture = UIPanGestureRecognizer(target:self, action:Selector("adjustImage:"))
+        let panGesture = UIPanGestureRecognizer(target:self, action:#selector(adjustImage(recognizer:)))
         panGesture.delegate = self
         self.transView.addGestureRecognizer(panGesture)
         
-        let pinchGesture = UIPinchGestureRecognizer.init(target:self, action:Selector("scalePiece:"))
+        let pinchGesture = UIPinchGestureRecognizer.init(target:self, action:#selector(scalePiece(recognizer:)))
         pinchGesture.delegate = self
         self.transView.addGestureRecognizer(pinchGesture)
         
@@ -130,9 +130,7 @@ class WBImageCropperVC:UIViewController,UIGestureRecognizerDelegate {
 //        rotateGesture.delegate = self
         
     }
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
+    
 //    func handleRotate(recognizer : UIRotationGestureRecognizer) {
 //        let state:UIGestureRecognizerState = recognizer.state
 //        
@@ -143,9 +141,9 @@ class WBImageCropperVC:UIViewController,UIGestureRecognizerDelegate {
 //            recognizer.rotation = 0.0
 //        }
 //    }
-    func scalePiece(recognizer:UIPinchGestureRecognizer) {
+    @objc func scalePiece(recognizer:UIPinchGestureRecognizer) {
         
-        if(recognizer.state == UIGestureRecognizerState.Ended)
+        if(recognizer.state == UIGestureRecognizerState.ended)
         {
             previousScale = 1.0;
             return;
@@ -154,29 +152,36 @@ class WBImageCropperVC:UIViewController,UIGestureRecognizerDelegate {
         let newScale:CGFloat  = 1.0 - (previousScale - recognizer.scale);
         
         let currentTransformation:CGAffineTransform  = self.originalImageVw!.transform;
-        let newTransform:CGAffineTransform = CGAffineTransformScale(currentTransformation, newScale, newScale);
+        let newTransform:CGAffineTransform = currentTransformation.scaledBy(x: newScale, y: newScale)//CGAffineTransformScale(currentTransformation, newScale, newScale);
         self.originalImageVw?.transform = newTransform
         previousScale = recognizer.scale
         
     }
-    func adjustImage(recognizer:UIPanGestureRecognizer){
+    @objc func adjustImage(recognizer:UIPanGestureRecognizer){
         
         //  let draggedView:UIView = recognizer.view!
-        let offset:CGPoint = recognizer.translationInView(self.originalImageVw.superview)
+        let offset:CGPoint = recognizer.translation(in: self.originalImageVw.superview)
         let center:CGPoint = self.originalImageVw.center;
-        self.originalImageVw.center = CGPointMake(center.x + offset.x, center.y + offset.y);
+        self.originalImageVw.center = CGPoint(x: center.x + offset.x,y: center.y + offset.y);
         // Reset translation to zero so on the next `panWasRecognized:` message, the
         // translation will just be the additional movement of the touch since now.
-        recognizer.setTranslation(CGPoint.zero, inView:self.originalImageVw.superview)
+        recognizer.setTranslation(CGPoint.zero, in:self.originalImageVw.superview)
         
     }
     func screenshot()->UIImage {
         UIGraphicsBeginImageContextWithOptions(self.cropView.bounds.size, false,(self.originalImageVw.image?.scale)!)
-        self.cropView.drawViewHierarchyInRect(self.cropView.bounds, afterScreenUpdates:true)
-        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
+        self.cropView.drawHierarchy(in: self.cropView.bounds, afterScreenUpdates:true)
+        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
         return image;
     }
     
+}
+
+extension WBImageCropperVC: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }
 

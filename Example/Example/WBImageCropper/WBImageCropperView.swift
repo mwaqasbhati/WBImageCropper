@@ -21,7 +21,7 @@ class WBImageCropperView:UIView {
         rectsArray = rects;
         super.init(frame: frame)
         // Initialization code
-        self.opaque = false
+        self.isOpaque = false
         self.backgroundColor = backgroundColor;
         
         
@@ -31,7 +31,7 @@ class WBImageCropperView:UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         
         
@@ -41,9 +41,9 @@ class WBImageCropperView:UIView {
         // clear the background in the given rectangles
         for holeRectValue in rectsArray {
             let holeRectV:NSValue = holeRectValue as! NSValue
-            let holeRect:CGRect = holeRectV.CGRectValue()
-            let holeRectIntersection:CGRect = CGRectIntersection( holeRect, rect )
-            UIColor.clearColor().setFill()
+            let holeRect:CGRect = holeRectV.cgRectValue
+            let holeRectIntersection:CGRect = holeRect.intersection( rect )
+            UIColor.clear.setFill()
             UIRectFill(holeRectIntersection);
         }
         
@@ -53,13 +53,16 @@ class WBImageCropperView:UIView {
             
             let context = UIGraphicsGetCurrentContext();
             
-            if( CGRectIntersectsRect( holeRectIntersection.CGRectValue(), rect ) )
+            if( holeRectIntersection.cgRectValue.intersects( rect ) )
             {
-                CGContextAddEllipseInRect(context, holeRectIntersection.CGRectValue());
-                CGContextClip(context);
-                CGContextClearRect(context, holeRectIntersection.CGRectValue());
-                CGContextSetFillColorWithColor( context, UIColor.clearColor().CGColor)
-                CGContextFillRect( context, holeRectIntersection.CGRectValue());
+                context?.addEllipse(in: holeRectIntersection.cgRectValue)
+                context?.clip()
+                guard context != nil else {
+                    return
+                }
+                context!.clear(holeRectIntersection.cgRectValue)
+                context!.setFillColor( UIColor.clear.cgColor)
+                context!.fill( holeRectIntersection.cgRectValue)
             }
         }
         

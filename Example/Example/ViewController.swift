@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,pickedImageDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var bodyImage: UIImageView!
@@ -22,67 +22,67 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         self.addGestureToImages()
     }
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         self.profileImage.layer.borderWidth = 2.0
-        self.profileImage.layer.borderColor = UIColor.whiteColor().CGColor
+        self.profileImage.layer.borderColor = UIColor.white.cgColor
         self.profileImage.layer.cornerRadius = self.profileImage.frame.size.height/2
         self.profileImage.layer.masksToBounds = true
         
     }
     func addGestureToImages(){
         
-        let profileGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("profileImageTapped:"))
+        let profileGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(profileImageTapped(recognizer:)))
         self.profileImage.addGestureRecognizer(profileGestureRecognizer)
         
-        let backGroundGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("backGroundImageTapped:"))
+        let backGroundGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(backGroundImageTapped(recognizer:)))
         self.backGroundImage.addGestureRecognizer(backGroundGestureRecognizer)
         
-        let bodyGroundGestureRecognizer = UITapGestureRecognizer(target:self, action:Selector("bodyGroundImageTapped:"))
+        let bodyGroundGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(bodyGroundImageTapped(recognizer:)))
         self.bodyImage.addGestureRecognizer(bodyGroundGestureRecognizer)
         
     }
     
-    func profileImageTapped(recognizer:UIGestureRecognizer){
+    @objc func profileImageTapped(recognizer:UIGestureRecognizer){
         
         check = 2
         self.showOptions()
     }
-    func backGroundImageTapped(recognizer:UIGestureRecognizer){
+    @objc func backGroundImageTapped(recognizer:UIGestureRecognizer){
         check = 1
         self.showOptions()
     }
-    func bodyGroundImageTapped(recognizer:UIGestureRecognizer){
+    @objc func bodyGroundImageTapped(recognizer:UIGestureRecognizer){
         check = 3
         self.showOptions()
     }
     func showOptions(){
         
         let imageController = UIImagePickerController()
-        imageController.editing = false
+        imageController.isEditing = false
         imageController.delegate = self;
         
-        let alert = UIAlertController(title: "Select Photo", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        alert.addAction(UIAlertAction(title: "Select photo from library", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
-            imageController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        let alert = UIAlertController(title: "Select Photo", message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
+        alert.addAction(UIAlertAction(title: "Select photo from library", style: UIAlertActionStyle.default, handler:{ (ACTION :UIAlertAction!)in
+            imageController.sourceType = UIImagePickerControllerSourceType.photoLibrary
             imageController.allowsEditing = true
-            self.presentViewController(imageController, animated: true, completion: nil)
+            self.present(imageController, animated: true, completion: nil)
         }))
-        alert.addAction(UIAlertAction(title: "Take a picture", style: UIAlertActionStyle.Default, handler:{ (ACTION :UIAlertAction!)in
+        alert.addAction(UIAlertAction(title: "Take a picture", style: UIAlertActionStyle.default, handler:{ (ACTION :UIAlertAction!)in
             
-            if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)){
-                imageController.sourceType = UIImagePickerControllerSourceType.Camera
+            if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)){
+                imageController.sourceType = UIImagePickerControllerSourceType.camera
                 imageController.allowsEditing = true
-                self.presentViewController(imageController, animated: true, completion: nil)
+                self.present(imageController, animated: true, completion: nil)
             }
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler:{ (ACTION :UIAlertAction!)in
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:{ (ACTION :UIAlertAction!)in
             
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
-        
+        self.present(alert, animated: true, completion: nil)
     }
     func gotoNextVCwithImage(image:UIImage,frame:CGRect,picker:UIImagePickerController){
         let  board:UIStoryboard  = UIStoryboard.init(name:"Main", bundle:nil)
-        let imageVC:WBImageCropperVC = board.instantiateViewControllerWithIdentifier("WBImageCropperVC") as! WBImageCropperVC
+        let imageVC:WBImageCropperVC = board.instantiateViewController(withIdentifier: "WBImageCropperVC") as! WBImageCropperVC
         imageVC.tempFrame = frame
         imageVC.tempImage = image
         if check == 2{
@@ -91,31 +91,37 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         imageVC.delegate = self
         picker.pushViewController(imageVC, animated:true)
     }
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+}
+
+extension ViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
+        }
         if check == 1 {
             
-            self.gotoNextVCwithImage(image,frame: self.backGroundImage.frame,picker:picker)
+            self.gotoNextVCwithImage(image: image,frame: self.backGroundImage.frame,picker:picker)
         }
         else if check == 2 {
-            self.gotoNextVCwithImage(image,frame: self.profileImage.frame,picker: picker)
+            self.gotoNextVCwithImage(image: image,frame: self.profileImage.frame,picker: picker)
             
         }
         else if check == 3 {
-            self.gotoNextVCwithImage(image,frame: self.bodyImage.frame,picker: picker)
+            self.gotoNextVCwithImage(image: image,frame: self.bodyImage.frame,picker: picker)
             
         }
-      //  self.dismissViewControllerAnimated(true, completion: nil)
         
     }
-    func didCancel(){
     
-    }
+}
+
+extension ViewController: pickedImageDelegate {
+    
     func didDone(croppedImage:UIImage){
-        
         if check == 1 {
-         
             self.backGroundImage.image = croppedImage
-        
         }
         else if check == 2 {
             self.profileImage.image = croppedImage
@@ -123,14 +129,10 @@ class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigat
         else if check == 3 {
             self.bodyImage.image = croppedImage
         }
+    }
+    func didCancel(){
         
+    }
     
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
