@@ -15,8 +15,6 @@
 		1847C2461C005DE700FC5A43 /* ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1847C2451C005DE700FC5A43 /* ExampleTests.swift */; };
 		1847C2511C005DE700FC5A43 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1847C2501C005DE700FC5A43 /* ExampleUITests.swift */; };
 		1847C2601C005E9E00FC5A43 /* WBImageCropperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1847C25F1C005E9E00FC5A43 /* WBImageCropperVC.swift */; };
-		1847C2621C005FA600FC5A43 /* WBImageCropperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1847C2611C005FA600FC5A43 /* WBImageCropperView.swift */; };
-		1847C2641C007BF100FC5A43 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1847C2631C007BF100FC5A43 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +49,6 @@
 		1847C2501C005DE700FC5A43 /* ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITests.swift; sourceTree = "<group>"; };
 		1847C2521C005DE700FC5A43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1847C25F1C005E9E00FC5A43 /* WBImageCropperVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBImageCropperVC.swift; sourceTree = "<group>"; };
-		1847C2611C005FA600FC5A43 /* WBImageCropperView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBImageCropperView.swift; sourceTree = "<group>"; };
-		1847C2631C007BF100FC5A43 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +56,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1847C2641C007BF100FC5A43 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,7 +79,6 @@
 		1847C2241C005DE600FC5A43 = {
 			isa = PBXGroup;
 			children = (
-				1847C2631C007BF100FC5A43 /* QuartzCore.framework */,
 				1847C22F1C005DE600FC5A43 /* Example */,
 				1847C2441C005DE700FC5A43 /* ExampleTests */,
 				1847C24F1C005DE700FC5A43 /* ExampleUITests */,
@@ -138,7 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				1847C25F1C005E9E00FC5A43 /* WBImageCropperVC.swift */,
-				1847C2611C005FA600FC5A43 /* WBImageCropperView.swift */,
 			);
 			path = WBImageCropper;
 			sourceTree = "<group>";
@@ -276,7 +269,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1847C2331C005DE600FC5A43 /* ViewController.swift in Sources */,
-				1847C2621C005FA600FC5A43 /* WBImageCropperView.swift in Sources */,
 				1847C2311C005DE600FC5A43 /* AppDelegate.swift in Sources */,
 				1847C2601C005E9E00FC5A43 /* WBImageCropperVC.swift in Sources */,
 			);
