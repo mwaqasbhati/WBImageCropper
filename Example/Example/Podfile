@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'WBImageCropper_Example' do
+  pod 'WBImageCropper', :path => '../'
+
+  target 'WBImageCropper_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

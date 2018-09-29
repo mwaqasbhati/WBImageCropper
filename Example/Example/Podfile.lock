@@ -1,0 +1,16 @@
+PODS:
+  - WBImageCropper (0.1.0)
+
+DEPENDENCIES:
+  - WBImageCropper (from `../`)
+
+EXTERNAL SOURCES:
+  WBImageCropper:
+    :path: ../
+
+SPEC CHECKSUMS:
+  WBImageCropper: ac1bc435a76e83ef0a9cb461ebb50dc4857d7382
+
+PODFILE CHECKSUM: 6863faae80a27ecf7e155d1a69f65f491ee31e53
+
+COCOAPODS: 1.4.0

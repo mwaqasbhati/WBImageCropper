@@ -1,0 +1,6 @@
+framework module WBImageCropper {
+  umbrella header "WBImageCropper-umbrella.h"
+
+  export *
+  module * { export * }
+}
