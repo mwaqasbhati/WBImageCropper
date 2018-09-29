@@ -8,41 +8,23 @@
 
 import UIKit
 
+//MARK: Enums
 enum ImageType {
     case Background
     case Profile
     case BodyBackground
 }
 
+//MARK: Enums
 class ViewController: UIViewController {
 
+    //MARK: Enums
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var bodyImage: UIImageView!
     @IBOutlet weak var backGroundImage: UIImageView!
     
     var imageType: ImageType = .Profile
-
-//    private(set) var mainImage: UIImage {
-//        set {
-//            if imageType == .Background {
-//                backGroundImage.image = mainImage
-//            } else if imageType == .Profile {
-//                profileImage.image = mainImage
-//            } else if imageType == .BodyBackground {
-//                bodyImage.image = mainImage
-//            }
-//        }
-//        get {
-//            if imageType == .Background {
-//                return backGroundImage.image ?? UIImage()
-//            } else if imageType == .Profile {
-//                return profileImage.image ?? UIImage()
-//            } else if imageType == .BodyBackground {
-//                return bodyImage.image ?? UIImage()
-//            }
-//            return UIImage()
-//        }
-//    }
+    
     private(set) var imageView: UIImageView {
         get {
             if imageType == .Background {
@@ -65,33 +47,24 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    //MARK: View Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         addGestureToImages()
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         profileImageLayout()
     }
-    func profileImageLayout() {
+    private func profileImageLayout() {
         profileImage.layer.borderWidth = 2.0
         profileImage.layer.borderColor = UIColor.white.cgColor
         profileImage.layer.cornerRadius = profileImage.frame.size.height/2
         profileImage.layer.masksToBounds = true
     }
-    func addGestureToImages(){
-        
-        let profileGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(profileImageTapped(recognizer:)))
-        profileImage.addGestureRecognizer(profileGestureRecognizer)
-        
-        let backGroundGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(backGroundImageTapped(recognizer:)))
-        backGroundImage.addGestureRecognizer(backGroundGestureRecognizer)
-        
-        let bodyGroundGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(bodyGroundImageTapped(recognizer:)))
-        bodyImage.addGestureRecognizer(bodyGroundGestureRecognizer)
-        
-    }
+    
+    //MARK: Action Methods
     @objc func backGroundImageTapped(recognizer:UIGestureRecognizer) {
         showOptionsForImage(.Background)
     }
@@ -100,6 +73,16 @@ class ViewController: UIViewController {
     }
     @objc func bodyGroundImageTapped(recognizer:UIGestureRecognizer) {
         showOptionsForImage(.BodyBackground)
+    }
+    
+    //MARK: Helper Methods
+    private func addGestureToImages() {
+        let profileGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(profileImageTapped(recognizer:)))
+        profileImage.addGestureRecognizer(profileGestureRecognizer)
+        let backGroundGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(backGroundImageTapped(recognizer:)))
+        backGroundImage.addGestureRecognizer(backGroundGestureRecognizer)
+        let bodyGroundGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(bodyGroundImageTapped(recognizer:)))
+        bodyImage.addGestureRecognizer(bodyGroundGestureRecognizer)
     }
     func showOptionsForImage(_ type: ImageType){
         imageType = type
@@ -130,20 +113,18 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    
+//MARK: UIImagePickerControllerDelegate & UINavigationControllerDelegate
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
         guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
             return
         }
         gotoNextVCwithImage(image: image,frame: imageView.frame, picker:picker)
     }
-    
 }
 
-extension ViewController: pickedImageDelegate {
-    
+//MARK: ImageCropperDelegate
+extension ViewController: ImageCropperDelegate {
     func pickedImageDidFinish(_ image: UIImage) {
          imageView.image = image
     }

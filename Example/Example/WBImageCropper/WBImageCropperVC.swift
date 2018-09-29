@@ -9,20 +9,21 @@
 import Foundation
 import UIKit
 
-protocol pickedImageDelegate {
+//MARK: Protocol
+protocol ImageCropperDelegate: class {
     func pickedImageDidCancel(_ image: UIImage?)
     func pickedImageDidFinish(_ image: UIImage)
 }
-
-extension pickedImageDelegate {
+extension ImageCropperDelegate {
     func pickedImageDidCancel(_ image: UIImage?) { }
 }
 
+//MARK: ViewController Class
 class WBImageCropperVC: UIViewController {
     
-    var delegate: pickedImageDelegate!
+    //MARK: Instance Variables
+    weak var delegate: ImageCropperDelegate!
     var transView: WBImageCropperView!
-
     var previousScale = CGFloat(0.0)
     var cornerRadius = CGFloat(0.0)
     var inputMask = CGRect.zero
@@ -32,6 +33,7 @@ class WBImageCropperVC: UIViewController {
     var cancelBtn: UIButton!
     var doneBtn: UIButton!
     
+    //MARK: Initializer
     convenience init(_ inputMask: CGRect, image: UIImage, radius: CGFloat = CGFloat(0.0)) {
         self.init()
         self.inputMask = inputMask
@@ -39,9 +41,9 @@ class WBImageCropperVC: UIViewController {
         self.cornerRadius = radius
     }
     
+    //MARK: ViewController Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         initializeCropView()
         originalImageView.isUserInteractionEnabled = true
         navigationController?.isNavigationBarHidden = true
@@ -59,40 +61,9 @@ class WBImageCropperVC: UIViewController {
         view.insertSubview(transView, aboveSubview:cropView)
         addGestureToView()
         initializeButton()
-        
-    }
-    func initializeCropView(){
-        
-        cropView = UIView(frame:CGRect(x: 0,y: 0,width: self.view.frame.size.width,height: self.view.frame.size.height))
-        originalImageView = UIImageView()
-        cropView.addSubview(originalImageView)
-        view.addSubview(cropView)
-    }
-    func initializeButton(){
-       
-        cancelBtn = UIButton(type:UIButtonType.custom)
-        cancelBtn.setTitle("Cancel", for:UIControlState.normal)
-        cancelBtn.addTarget(self, action:#selector(cancelBtnPressed), for:UIControlEvents.touchUpInside)
-        doneBtn = UIButton(type:UIButtonType.custom)
-        doneBtn.setTitle("Done", for:UIControlState.normal)
-        doneBtn.addTarget(self, action:#selector(doneBtnPressed), for:UIControlEvents.touchUpInside)
-        cancelBtn.sizeToFit()
-        doneBtn.sizeToFit()
-        view.addSubview(cancelBtn)
-        view.addSubview(doneBtn)
-        
-    }
-    @objc func cancelBtnPressed() {
-        delegate.pickedImageDidCancel(nil)
-        dismiss(animated: true, completion: nil)
-    }
-    @objc func doneBtnPressed() {
-        let image = screenshot()
-        delegate.pickedImageDidFinish(image)
-        dismiss(animated: true, completion: nil)
     }
     override func viewDidLayoutSubviews() {
-        
+        super.viewDidLayoutSubviews()
         cancelBtn.frame = CGRect(x: 10.0,y: 30.0,width: 60.0,height: 30.0)
         doneBtn.frame = CGRect(x: view.frame.size.width-70.0,y: 30.0,width: 60.0,height: 30.0)
         
@@ -113,8 +84,37 @@ class WBImageCropperVC: UIViewController {
             transView.draw(transView.frame)
             cropView.layer.cornerRadius = cornerRadius//cropView.frame.size.height/2
         }
-        
     }
+    
+    //MARK: Helper Methods
+    private func initializeCropView() {
+        cropView = UIView(frame:CGRect(x: 0,y: 0,width: self.view.frame.size.width,height: self.view.frame.size.height))
+        originalImageView = UIImageView()
+        cropView.addSubview(originalImageView)
+        view.addSubview(cropView)
+    }
+    private func initializeButton() {
+        cancelBtn = UIButton(type:UIButtonType.custom)
+        cancelBtn.setTitle("Cancel", for:UIControlState.normal)
+        cancelBtn.addTarget(self, action:#selector(cancelBtnPressed), for:UIControlEvents.touchUpInside)
+        doneBtn = UIButton(type:UIButtonType.custom)
+        doneBtn.setTitle("Done", for:UIControlState.normal)
+        doneBtn.addTarget(self, action:#selector(doneBtnPressed), for:UIControlEvents.touchUpInside)
+        cancelBtn.sizeToFit()
+        doneBtn.sizeToFit()
+        view.addSubview(cancelBtn)
+        view.addSubview(doneBtn)
+    }
+    @objc func cancelBtnPressed() {
+        delegate.pickedImageDidCancel(nil)
+        dismiss(animated: true, completion: nil)
+    }
+    @objc func doneBtnPressed() {
+        let image = screenshot()
+        delegate.pickedImageDidFinish(image)
+        dismiss(animated: true, completion: nil)
+    }
+    
     func addGestureToView(){
         
         let panGesture = UIPanGestureRecognizer(target:self, action:#selector(adjustImage(recognizer:)))
@@ -141,6 +141,7 @@ class WBImageCropperVC: UIViewController {
 //            recognizer.rotation = 0.0
 //        }
 //    }
+    //MARK: Desture Handling Methods
     @objc func scalePiece(recognizer:UIPinchGestureRecognizer) {
         
         if(recognizer.state == .ended) {
@@ -173,20 +174,22 @@ class WBImageCropperVC: UIViewController {
     
 }
 
+//MARK: UIGestureRecognizerDelegate
 extension WBImageCropperVC: UIGestureRecognizerDelegate {
-    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
-
+//MARK: WBImageCropperView
 class WBImageCropperView: UIView {
     
+    //MARK: Instance Variables
     var rectsArray = [NSValue]()
     var circles = [NSValue]()
     var backColor = UIColor()
     
+    //MARK: Initializers
     required init(frame:CGRect,backgroundColor:UIColor,rects: [NSValue]) {
         rectsArray = rects
         super.init(frame: frame)
@@ -196,6 +199,7 @@ class WBImageCropperView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    //MARK: Override Functions
     override func draw(_ rect: CGRect) {
         backgroundColor?.setFill()
         UIRectFill(rect)
