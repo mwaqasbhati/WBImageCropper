@@ -29,7 +29,7 @@ extension ImageCropperDelegate {
 open class WBImageCropperVC: UIViewController {
     
     //MARK: Instance Variables
-    public weak var delegate: ImageCropperDelegate!
+    public weak var delegate: ImageCropperDelegate?
     var transView: WBImageCropperView!
     var previousScale = CGFloat(0.0)
     var cornerRadius = CGFloat(0.0)
@@ -113,12 +113,12 @@ open class WBImageCropperVC: UIViewController {
         view.addSubview(doneButton)
     }
     @objc func cancelButtonPressed() {
-        delegate.pickedImageDidCancel(nil)
+        delegate?.pickedImageDidCancel(nil)
         dismiss(animated: true, completion: nil)
     }
     @objc func doneButtonPressed() {
         let image = screenshot()
-        delegate.pickedImageDidFinish(image)
+        delegate?.pickedImageDidFinish(image)
         dismiss(animated: true, completion: nil)
     }
     
