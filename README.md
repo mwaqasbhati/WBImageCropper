@@ -1,45 +1,29 @@
 # WBImageCropper
 
-An Innovative Image Cropper made in Swift with which you can crop your profile pictures, background images according to your requirements.
+[![CI Status](https://img.shields.io/travis/mwaqasbhati/WBImageCropper.svg?style=flat)](https://travis-ci.org/mwaqasbhati/WBImageCropper)
+[![Version](https://img.shields.io/cocoapods/v/WBImageCropper.svg?style=flat)](https://cocoapods.org/pods/WBImageCropper)
+[![License](https://img.shields.io/cocoapods/l/WBImageCropper.svg?style=flat)](https://cocoapods.org/pods/WBImageCropper)
+[![Platform](https://img.shields.io/cocoapods/p/WBImageCropper.svg?style=flat)](https://cocoapods.org/pods/WBImageCropper)
 
-![](https://github.com/mwaqasbhati/WBImageCropper/blob/master/Example/Example/SnapShots/Simulator%20Screen%20Shot%2023-Nov-2015%2C%2010.11.58%20PM.png)
-![](https://github.com/mwaqasbhati/WBImageCropper/blob/master/Example/Example/SnapShots/Simulator%20Screen%20Shot%2023-Nov-2015%2C%2010.31.39%20PM.png)
+## Example
 
-# Installation
-* First Download the Example project from Github
-* Drag the WBImageCropper into your project Swift project
-* Conform to protocol **pickedImageDelegate**
-* Add these line where you want to include WBImageCropper like this
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-**Example:**
+## Requirements
 
-Just create a view controller for image cropping and set the delegate.
+## Installation
 
-         let  board:UIStoryboard  = UIStoryboard.init(name:"Main", bundle:nil)
-         
-         let imageVC:WBImageCropperVC = board.instantiateViewControllerWithIdentifier("WBImageCropperVC") as! WBImageCropperVC`
-          
-         imageVC.tempFrame = frame // Frame of your cropping rectangle
-          
-         imageVC.tempImage = image // Image you want to crop
-          
-         imageVC.cornerRadius = radius // Corner radius If you want a circular cropping 
-          
-         imageVC.delegate = self // Delegate that you will implement
-          
-         picker.pushViewController(imageVC, animated:true)
+WBImageCropper is available through [CocoaPods](https://cocoapods.org). To install
+it, simply add the following line to your Podfile:
 
-# Delegate
+```ruby
+pod 'WBImageCropper'
+```
 
-You have to implement two delegates
+## Author
 
-    func didCancel(){
-       print("Cancel is Called")
-    }
-    func didDone(croppedImage:UIImage){
-      print("Your Cropped Image is ready here!")
-    } 
+mwaqasbhati, m.waqas.bhati@hotmail.com
 
- 
+## License
 
- 
+WBImageCropper is available under the MIT license. See the LICENSE file for more info.
