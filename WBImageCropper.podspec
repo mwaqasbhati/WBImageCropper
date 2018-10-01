@@ -21,13 +21,13 @@ Pod::Spec.new do |s|
 
   s.homepage         = 'https://github.com/mwaqasbhati/WBImageCropper'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.license          = { :type => 'MIT', :file => 'WBImageCropper/LICENSE' }
   s.author           = { 'mwaqasbhati' => 'm.waqas.bhati@hotmail.com' }
   s.source           = { :git => 'https://github.com/mwaqasbhati/WBImageCropper.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
   s.swift_version = '4.1'
   s.ios.deployment_target = '10.0'
-  s.source_files = 'WBImageCropper/Classes/*.swift'
+  s.source_files = 'WBImageCropper/Classes/**/*'
   
   # s.resource_bundles = {
   #   'WBImageCropper' => ['WBImageCropper/Assets/*.png']
