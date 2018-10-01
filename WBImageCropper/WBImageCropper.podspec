@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
   s.swift_version = '4.2'
   s.ios.deployment_target = '10.0'
-  s.source_files = 'WBImageCropper/Classes/**/*'
+  s.source_files = 'WBImageCropper/WBImageCropper/Classes/*.swift'
   
   # s.resource_bundles = {
   #   'WBImageCropper' => ['WBImageCropper/Assets/*.png']

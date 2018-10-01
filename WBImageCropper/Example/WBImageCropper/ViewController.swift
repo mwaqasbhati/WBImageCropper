@@ -116,8 +116,8 @@ class ViewController: UIViewController {
 
 //MARK: UIImagePickerControllerDelegate & UINavigationControllerDelegate
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
             return
         }
         gotoNextVCwithImage(image: image,frame: imageView.frame, picker:picker)
