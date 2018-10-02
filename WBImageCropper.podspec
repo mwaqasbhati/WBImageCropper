@@ -20,8 +20,8 @@ Pod::Spec.new do |s|
   s.description      = 'This amazing library will provide you a user friendly view to do the cropping of an input image. We have to provide an input image and required cropping mask. we need to confirm to its delegate in which you will get the cropped image with the desired mask'
 
   s.homepage         = 'https://github.com/mwaqasbhati/WBImageCropper'
-  s.screenshots     = 'https://github.com/mwaqasbhati/WBImageCropper/tree/master/Example/screenshots/1.png', 'https://github.com/mwaqasbhati/WBImageCropper/tree/master/Example/screenshots/3.png'
-  s.license          = { :type => 'MIT', :file => 'WBImageCropper/LICENSE' }
+  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'mwaqasbhati' => 'm.waqas.bhati@hotmail.com' }
   s.source           = { :git => 'https://github.com/mwaqasbhati/WBImageCropper.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
