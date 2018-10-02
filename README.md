@@ -1,6 +1,5 @@
 # WBImageCropper
 
-[![CI Status](https://img.shields.io/travis/mwaqasbhati/WBImageCropper.svg?style=flat)](https://travis-ci.org/mwaqasbhati/WBImageCropper)
 [![Version](https://img.shields.io/cocoapods/v/WBImageCropper.svg?style=flat)](https://cocoapods.org/pods/WBImageCropper)
 [![License](https://img.shields.io/cocoapods/l/WBImageCropper.svg?style=flat)](https://cocoapods.org/pods/WBImageCropper)
 [![Platform](https://img.shields.io/cocoapods/p/WBImageCropper.svg?style=flat)](https://cocoapods.org/pods/WBImageCropper)
