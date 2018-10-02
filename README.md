@@ -20,9 +20,14 @@ present(imageCroppingVC, animated: true, completion: nil)
 ```
 ### ImageCropperDelegate 
 
+```swift
 func pickedImageDidFinish(_ image: UIImage)
 func pickedImageDidCancel(_ image: UIImage?)
+```
 
+|             Square Mask         |         Rectangle Mask          |
+|---------------------------------|------------------------------|
+|![Demo](https://github.com/mwaqasbhati/WBImageCropper/tree/master/Example/screenshots/1.png)|![Demo](https://github.com/mwaqasbhati/WBImageCropper/tree/master/Example/screenshots/3.png)|
 ## Requirements
 
 - iOS 9.4
