@@ -5,6 +5,18 @@
 [![License](https://img.shields.io/cocoapods/l/WBImageCropper.svg?style=flat)](https://cocoapods.org/pods/WBImageCropper)
 [![Platform](https://img.shields.io/cocoapods/p/WBImageCropper.svg?style=flat)](https://cocoapods.org/pods/WBImageCropper)
 
+
+WBImageCropper works for all type of input cropping mask and is implemented in Swift.*
+
+
+## About
+
+WBImageCropper will provide you image editing & cropping functionality by just calling a 2 line to code. It made things easy that was never before.
+
+## Background
+
+I have used many cropping tools but this library provides cropping stuff very user friendly.
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
@@ -14,9 +26,9 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 - First Create a WBImageCropper Object with Image and Cropping Mask and then confirm to it's delegate
   
 ```swift
-let imageCroppingVC = WBImageCropperVC(CGRect(x: 0, y: view.frame.size.height/2, width: view.frame.size.width, height: 200), image: UIImage(named: "world")!)
-imageCroppingVC.delegate = self
-present(imageCroppingVC, animated: true, completion: nil)
+let croppingView = WBImageCropperVC(CGRect(x: 0, y: view.frame.size.height/2, width: view.frame.size.width, height: 200), image: UIImage(named: "world")!)
+croppingView.delegate = self
+present(croppingView, animated: true, completion: nil)
 ```
 ### ImageCropperDelegate 
 
