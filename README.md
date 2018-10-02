@@ -27,7 +27,7 @@ func pickedImageDidCancel(_ image: UIImage?)
 
 |             Square Mask         |         Rectangle Mask          |
 |---------------------------------|------------------------------|
-|![Demo](https://github.com/mwaqasbhati/WBImageCropper/tree/master/screenshots/square.png)|![Demo](https://github.com/mwaqasbhati/WBImageCropper/tree/master/screenshots/rectangle.png)|
+|![Demo](https://github.com/mwaqasbhati/WBImageCropper/blob/master/screenshots/square.png)|![Demo](https://github.com/mwaqasbhati/WBImageCropper/blob/master/screenshots/rectangle.png)|
 ## Requirements
 
 - iOS 9.4
